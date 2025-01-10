@@ -11,13 +11,15 @@ import {
     TableRow,
     Typography,
     Box,
+    IconButton,
     CircularProgress
 } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 function App() {
     const [data, setData] = useState([]);
     const [expandedRows, setExpandedRows] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -26,14 +28,13 @@ function App() {
 
     const fetchData = async () => {
         try {
+            setLoading(true);
+            setError(null);
             const response = await axios.get(process.env.REACT_APP_API_URL + '/api/data');
             console.log('Raw API Response:', response.data);
             
             if (!Array.isArray(response.data)) {
-                console.error('API response is not an array:', response.data);
-                setError('Invalid data format received from API');
-                setLoading(false);
-                return;
+                throw new Error('API response is not an array');
             }
 
             // API yanıtını işle
@@ -50,12 +51,16 @@ function App() {
             console.log('Final Organized Data:', organizedData);
             
             setData(organizedData);
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
-            setError(error.message);
+            setError('Veri yüklenirken bir hata oluştu.');
+        } finally {
             setLoading(false);
         }
+    };
+
+    const handleRefresh = () => {
+        fetchData();
     };
 
     const organizeData = (flatData) => {
@@ -181,9 +186,26 @@ function App() {
     return (
         <Container maxWidth="lg">
             <Box sx={{ my: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom>
-                    ETahsilat Data Dashboard
-                </Typography>
+                <Box display="flex" alignItems="center" mb={3}>
+                    <Typography variant="h4" component="h1">
+                        ETahsilat Data Dashboard
+                    </Typography>
+                    <IconButton 
+                        onClick={handleRefresh} 
+                        color="primary" 
+                        sx={{ ml: 2 }}
+                        disabled={loading}
+                    >
+                        {loading ? <CircularProgress size={24} /> : <RefreshIcon />}
+                    </IconButton>
+                </Box>
+
+                {error && (
+                    <Typography color="error" mb={2}>
+                        {error}
+                    </Typography>
+                )}
+
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
