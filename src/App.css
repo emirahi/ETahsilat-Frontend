@@ -1,0 +1,71 @@
+.App {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.data-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.even-row {
+  background-color: #f8f8f8;
+}
+
+.odd-row {
+  background-color: #ffffff;
+}
+
+.expand-button {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0;
+  line-height: 1;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expand-button:hover {
+  background-color: #f0f0f0;
+}
+
+td {
+  white-space: nowrap;
+}
+
+td:nth-child(1) {
+  min-width: 120px;
+}
+
+td:nth-child(2) {
+  min-width: 200px;
+}
+
+td:nth-child(3),
+td:nth-child(4) {
+  min-width: 100px;
+  text-align: right;
+}
