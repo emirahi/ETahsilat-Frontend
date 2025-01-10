@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: etahsilat-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://etahsilat.onrender.com
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
